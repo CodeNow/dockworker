@@ -73,11 +73,11 @@ RUN apt-get install -y -q mysql-server
 
 # # LANGS
 
-# ## GO
-# RUN apt-get install -y -q golang
+## GO
+RUN apt-get install -y -q golang
 
-# ## RUBY
-# RUN apt-get install -y -q ruby
+## RUBY
+RUN apt-get install -y -q ruby
 
 ## NODE
 RUN apt-get install -y -q nodejs
