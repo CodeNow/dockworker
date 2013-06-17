@@ -41,22 +41,22 @@ RUN tar xzvf apache-couchdb-1.3.0.tar.gz && cd apache-couchdb-1.3.0 && ./configu
 # mongo
 RUN apt-get -y install git-core scons
 RUN git clone git://github.com/mongodb/mongo.git
-#RUN cd mongo && git checkout r2.5.0 && scons all && scons install
+RUN cd mongo && git checkout r2.5.0 && scons all && scons install
 
-# # mysql
-# RUN apt-get -y install cmake ncurses-dev
-# RUN wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.15.tar.gz/from/http://mysql.oss.eznetsols.org/
-# RUN tar xzvf mysql-5.5.15.tar.gz && cd mysql-5.5.15 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql5 -DMYSQL_TCP_PORT=3306  -DMYSQL_UNIX_ADDR=/tmp/mysql.sock && make && make install
+# mysql
+RUN apt-get -y install cmake ncurses-dev
+RUN wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.15.tar.gz/from/http://mysql.oss.eznetsols.org/
+RUN tar xzvf mysql-5.5.15.tar.gz && cd mysql-5.5.15 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql5 -DMYSQL_TCP_PORT=3306  -DMYSQL_UNIX_ADDR=/tmp/mysql.sock && make && make install
 
-# # apache
-# # http://mirror.olnevhost.net/pub/apache//httpd/httpd-2.4.4.tar.gz
+# apache
+# http://mirror.olnevhost.net/pub/apache//httpd/httpd-2.4.4.tar.gz
 
-# # config
-# RUN mkdir /runnable
-# ADD dockworker.js /runnable/dockworker.js
-# ADD hello.js /root/hello.js
-# RUN chmod +x /runnable/dockworker.js
-# EXPOSE 80
-# EXPOSE 9001
-# CMD /runnable/dockworker.js
+# config
+RUN mkdir /runnable
+ADD dockworker.js /runnable/dockworker.js
+ADD hello.js /root/hello.js
+RUN chmod +x /runnable/dockworker.js
+EXPOSE 80
+EXPOSE 9001
+CMD /runnable/dockworker.js
 
