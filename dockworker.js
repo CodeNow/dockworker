@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 var spawn = require('child_process').spawn;
 var fs = require('fs');
-
+var runnableStartCmd = process.env.RUNNABLE_START_CMD;
+var cmd = runnableStartCmd.shift();
+var args = runnableStartCmd;
 
 var mongo = spawn('mongod');
 var redis = spawn('redis-server');
-var mysql = spawn('/usr/local/pgsql/bin/postgres');
 
-var node = spawn('node', ['/root/hello.js'], { stdio: 'inherit' });
+var node = spawn(cmd, [args], { stdio: 'inherit' });
