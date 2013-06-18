@@ -4,8 +4,10 @@ var fs = require('fs');
 var runnableStartCmd = process.env.RUNNABLE_START_CMD;
 var cmd = runnableStartCmd.shift();
 var args = runnableStartCmd;
+var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
 
-var mongo = spawn('mongod');
-var redis = spawn('redis-server');
+runnableServiceCommands.split(';').forEach(function (cmd) {
+  spawn(cmd);
+});
 
 var node = spawn(cmd, [args], { stdio: 'inherit' });
