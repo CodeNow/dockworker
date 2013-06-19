@@ -1,0 +1,14 @@
+{
+  "name": "Dockworker",
+  "author": "PRHAT",
+  "version": "0.0.1",
+  "description": "daemon running on the docker containers",
+  "dependencies": {
+    "dnode" :"*",
+    "mkdirp" : "*",
+    "rimraf" : "*",
+    "wrench" : "*"
+   },
+  "engine": "node 0.8.x"
+}
+

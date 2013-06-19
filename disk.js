@@ -1,6 +1,4 @@
-var Volumes, configs, fs, mkdirp, rimraf, wrench;
-
-configs = require('../../configs');
+var Volumes, fs, mkdirp, rimraf, port, wrench;
 
 fs = require('fs');
 
@@ -10,7 +8,11 @@ rimraf = require('rimraf');
 
 wrench = require('wrench');
 
-Volumes = {
+dnode = require('dnode');
+
+port = 5000;
+
+var server = dnode({
   create: function(id, cb) {
     var volumePath;
     volumePath = "" + configs.volumesPath + "/" + id;
@@ -348,6 +350,6 @@ Volumes = {
       }
     });
   }
-};
+});
 
-module.exports = Volumes;
+server.listen(port);
