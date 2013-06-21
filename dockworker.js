@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 var spawn = require('child_process').spawn;
 var fs = require('fs');
+var http = require('http');
+var shoe = require('shoe');
+var pty = require('pty.js');
 
 // Locals
 
@@ -58,4 +61,23 @@ start.stderr.pipe(applog);
 
 var bash = spawn('bash', [], { stdio: 'inherit', cwd: serviceSrcDir});
 
+// tty
+var server = http.createServer();
+server.on('error', function (error) {
+  console.error(error);
+});
+
+var sock = shoe(function (remote) {
+  var term = pty.spawn('bash', [], {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 30,
+    cwd: serviceSrcDir,
+    env: process.env
+  });
+  remote.pipe(term).pipe(remote);
+});
+
+sock.install(server, '/');
+server.listen(15000);
 
