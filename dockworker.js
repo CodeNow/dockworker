@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var spawn = require('child_process').spawn;
-/*var fs = require('fs');
+var fs = require('fs');
 var runnableStartCmd = process.env.RUNNABLE_START_CMD;
 var cmd = runnableStartCmd.shift();
 var args = runnableStartCmd;
@@ -10,8 +10,11 @@ runnableServiceCommands.split(';').forEach(function (cmd) {
   spawn(cmd);
 });
 
-var node = spawn(cmd, [args], { stdio: 'inherit' });*/
+var node = spawn(cmd, [args], { stdio: 'inherit' });
+
+/*
 var bash = spawn('bash', [], {stdio: 'inherit' });
 setInterval(function () {
   process.stdin.write('.');
 }, 1000); 
+*/
