@@ -17,16 +17,12 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
   var log = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log");
   var binary = commandArray.shift();
   var binaryArgs = commandArray;
-  var proc = spawn(binary, binaryArgs);
-  proc.stdout.pipe(log);
-  proc.stderr.pipe(log);
+  var proc = spawn(binary, binaryArgs, { stdio: [null, log, log] });
 });
 
 // Launch our App
-
-var start = spawn(cmd, args, { cwd: serviceSrcDir });
-start.stdout.pipe(process.stdout);
-start.stderr.pipe(process.stderr);
+var applog = fs.createWriteStream("/var/log/app.log");
+var start = spawn(cmd, args, { stdio: [null, applog, applog], cwd: serviceSrcDir });
 
 var bash = spawn('bash', [], { stdio: 'inherit', cwd: serviceSrcDir});
 
