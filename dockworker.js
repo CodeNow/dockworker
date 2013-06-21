@@ -17,8 +17,17 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
   var log = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log");
   var binary = commandArray.shift();
   var binaryArgs = commandArray;
+  console.log(binary);
+  console.log(binaryArgs);
   var proc = spawn(binary, binaryArgs, { stdio: [null, log, log] });
 });
+
+// Debug only
+
+console.log(serviceSrcDir);
+console.log(cmd);
+console.log(args);
+
 
 // Launch our App
 var applog = fs.createWriteStream("/var/log/app.log");
@@ -26,9 +35,4 @@ var start = spawn(cmd, args, { stdio: [null, applog, applog], cwd: serviceSrcDir
 
 var bash = spawn('bash', [], { stdio: 'inherit', cwd: serviceSrcDir});
 
-// Debug only
 
-console.log(serviceSrcDir);
-console.log(cmd);
-console.log(args);
-console.log(runnableServiceCommands);
