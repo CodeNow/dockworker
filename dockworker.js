@@ -37,4 +37,4 @@ runnableServiceCommands.split(';').forEach(function (cmd) {
   spawn(cmd);
 });
 */
-var node = spawn(cmd, [args], { stdio: 'inherit' });
+//var node = spawn(cmd, [args], { stdio: 'inherit' });
