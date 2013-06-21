@@ -30,7 +30,7 @@ var spawn = require('child_process').spawn;
 
 var serviceSrcDir = process.env.RUNNABLE_USER_DIR;
 var serviceLauncher = process.env.RUNNABLE_START_CMD.split(" ");
-//var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
+var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
 
 var cmd = serviceLauncher[0];
 var args = [];
@@ -42,11 +42,11 @@ for (var i = 1; i < serviceLauncher.length; i++) {
 console.log(serviceSrcDir);
 console.log(cmd);
 console.log(args);
+console.log(runnableServiceCommands);
 
-/*
 runnableServiceCommands.split(';').forEach(function (cmd) {
   spawn(cmd);
 });
-*/
+
 
 var node = spawn(cmd, [args], { stdio: 'inherit', cwd: serviceSrcDir});
