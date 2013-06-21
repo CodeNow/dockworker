@@ -12,3 +12,4 @@ runnableServiceCommands.split(';').forEach(function (cmd) {
 
 var node = spawn(cmd, [args], { stdio: 'inherit' });*/
 var bash = spawn('bash', [], {stdio: 'inherit' });
+process.stdin.resume();
