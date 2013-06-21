@@ -22,7 +22,7 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
 
 // Launch our App
 var applog = fs.createWriteStream("/var/log/app.log");
-var start = spawn(cmd, args, { stdio: ['ignore', applog, applog], cwd: serviceSrcDir });
+var start = spawn(cmd, args, { stdio: [null, applog, applog], cwd: serviceSrcDir });
 
 var bash = spawn('bash', [], { stdio: 'inherit', cwd: serviceSrcDir});
 
