@@ -15,27 +15,32 @@ console.log({
   runnableServiceCommands: runnableServiceCommands,
   runnableServiceCommandsSplit: runnableServiceCommands.split(';'),
   binarys: runnableServiceCommands.split(';').map(function (commandLine) {
-    var commandArray = commandLine.split(" ");
-    var binary = commandArray.shift();
-    var binaryArgs = commandArray;
-    return {
-      commandArray: commandArray,
-      binary: binary,
-      binaryArgs: binaryArgs,
-      log: "/var/log/" + commandArray.join("_") + ".log"
-    };
+    if (commandLine) {
+      var commandArray = commandLine.split(" ");
+      var log = "/var/log/" + commandArray.join("_") + ".log";
+      var binary = commandArray.shift();
+      var binaryArgs = commandArray;
+      return {
+        commandArray: commandArray,
+        binary: binary,
+        binaryArgs: binaryArgs,
+        log: log
+      };
+    } else {
+      return null;
+    }
   })
 });
 runnableServiceCommands.split(';').forEach(function (commandLine) {
-  var commandArray = commandLine.split(" ");
-  var log = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log", { flags: 'a' });
-  var binary = commandArray.shift();
-  var binaryArgs = commandArray;
-  console.log(binary);
-  console.log(binaryArgs);
-  var proc = spawn(binary, binaryArgs);
-  proc.stdout.pipe(log);
-  proc.stderr.pipe(log);
+  if (commandLine) {
+    var commandArray = commandLine.split(" ");
+    var log = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log", { flags: 'a' });
+    var binary = commandArray.shift();
+    var binaryArgs = commandArray;
+    var proc = spawn(binary, binaryArgs);
+    proc.stdout.pipe(log);
+    proc.stderr.pipe(log);
+  }
 });
 
 // Debug only
