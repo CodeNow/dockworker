@@ -17,7 +17,7 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
   var log = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log");
   var binary = commandArray.shift();
   var binaryArgs = commandArray;
-  var proc = spawn(binary, binaryArgs, { stdio: ['ignore', log, log] });
+  var proc = spawn(binary, binaryArgs, { stdio: [null, log, log] });
 });
 
 // Launch our App
