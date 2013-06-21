@@ -13,5 +13,5 @@ runnableServiceCommands.split(';').forEach(function (cmd) {
 var node = spawn(cmd, [args], { stdio: 'inherit' });*/
 var bash = spawn('bash', [], {stdio: 'inherit' });
 setInterval(function () {
-  process.stdout.write('.');
+  bash.stdin.write('echo foo\r\n');
 }, 100); 
