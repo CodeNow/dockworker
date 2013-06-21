@@ -11,7 +11,21 @@ var cmd = serviceLauncher.shift();
 var args = serviceLauncher;
 
 // Launch Services
-
+console.log({
+  runnableServiceCommands: runnableServiceCommands,
+  runnableServiceCommandsSplit: runnableServiceCommands.split(';'),
+  binarys: runnableServiceCommands.split(';').map(function (commandLine) {
+    var commandArray = commandLine.split(" ");
+    var binary = commandArray.shift();
+    var binaryArgs = commandArray;
+    return {
+      commandArray: commandArray,
+      binary: binary,
+      binaryArgs: binaryArgs,
+      log: "/var/log/" + commandArray.join("_") + ".log"
+    };
+  })
+});
 runnableServiceCommands.split(';').forEach(function (commandLine) {
   var commandArray = commandLine.split(" ");
   var log = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log", { flags: 'a' });
