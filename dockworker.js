@@ -24,7 +24,11 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
 
 // Launch our App
 
-var node = spawn(cmd, args, { stdio: 'inherit', cwd: serviceSrcDir});
+var start = spawn(cmd, args, { cwd: serviceSrcDir });
+start.stdout.pipe(process.stdout);
+start.stderr.pipe(process.stderr);
+
+var bash = spawn('bash', [], { stdio: 'inherit', cwd: serviceSrcDir});
 
 // Debug only
 
