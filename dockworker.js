@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 var spawn = require('child_process').spawn;
+var fs = require('fs');
+
+// Locals
 
 var serviceSrcDir = process.env.RUNNABLE_USER_DIR;
 var serviceLauncher = process.env.RUNNABLE_START_CMD.split(" ");
@@ -11,9 +14,13 @@ var args = serviceLauncher;
 
 runnableServiceCommands.split(';').forEach(function (commandLine) {
   var commandArray = commandLine.split(" ");
+  var stream = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log");
   var binary = commandArray.shift();
   var binaryArgs = commandAray;
-  spawn(binary, [binaryArgs]);
+  spawn(binary, [binaryArgs], function (proc) {
+    proc.stdin.pipe(stream);
+    proc.stderr.pipe(stream);
+  });
 });
 
 // Launch our App
