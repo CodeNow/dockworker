@@ -14,12 +14,12 @@ var args = serviceLauncher;
 
 runnableServiceCommands.split(';').forEach(function (commandLine) {
   var commandArray = commandLine.split(" ");
-  var stream = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log");
+  var log = fs.createWriteStream("/var/log/" + commandArray.join("_") + ".log");
   var binary = commandArray.shift();
   var binaryArgs = commandAray;
   spawn(binary, [binaryArgs], function (proc) {
-    proc.stdout.pipe(stream);
-    proc.stderr.pipe(stream);
+    proc.stdout.pipe(log);
+    proc.stderr.pipe(log);
   });
 });
 
