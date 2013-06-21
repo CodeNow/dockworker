@@ -14,16 +14,14 @@ runnableServiceCommands.split(';').forEach(function (cmd) {
 var node = spawn(cmd, [args], { stdio: 'inherit' });
 
 /*
-var bash = spawn('bash', [], {stdio: 'inherit' });
-setInterval(function () {
-  process.stdin.write('.');
-}, 1000); 
-
-
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(80);
-console.log('Hello Kitty');
+  var bash = spawn('bash', [], {stdio: 'inherit' });
+  setInterval(function () {
+    process.stdin.write('.');
+  }, 1000); 
+  var http = require('http');
+  http.createServer(function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello World\n');
+  }).listen(80);
+  console.log('Hello Kitty');
 */
