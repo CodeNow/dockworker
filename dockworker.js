@@ -43,11 +43,10 @@ console.log(serviceSrcDir);
 console.log(cmd);
 console.log(args);
 
-
 /*
 runnableServiceCommands.split(';').forEach(function (cmd) {
   spawn(cmd);
 });
 */
 
-var node = spawn(cmd, [args], { stdio: 'inherit' });
+var node = spawn(cmd, [args], { stdio: 'inherit', cwd: serviceSrcDir});
