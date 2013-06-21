@@ -28,16 +28,26 @@ var node = spawn(cmd, [args], { stdio: 'inherit' });
 var spawn = require('child_process').spawn;
 //var fs = require('fs');
 
-var runnableStartCmd = process.env.RUNNABLE_START_CMD;
+var serviceSrcDir = process.env.RUNNABLE_USER_DIR;
+var serviceLauncher = process.env.RUNNABLE_START_CMD.split(" ");
 //var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
 
-var serviceLauncher = runnableStartCmd.split(" ");
+var cmd = serviceLauncher[0];
+var args = [];
 
-console.log(serviceLauncher);
+for (var i = 1; i < serviceLauncher.length; i++) {
+  args.push(serviceLauncher[i]);
+}
+
+console.log(serviceSrcDir);
+console.log(cmd);
+console.log(args);
+
 
 /*
 runnableServiceCommands.split(';').forEach(function (cmd) {
   spawn(cmd);
 });
 */
-//var node = spawn(cmd, [args], { stdio: 'inherit' });
+
+var node = spawn(cmd, [args], { stdio: 'inherit' });
