@@ -5,7 +5,7 @@
   "description": "daemon running on the docker containers",
   "dependencies": {
     "shoe" :"*",
-    "pty" : "*"
+    "pty.js" : "*"
    }
 }
 
