@@ -26,12 +26,14 @@ var node = spawn(cmd, [args], { stdio: 'inherit' });
   console.log('Hello Kitty');
 */
 var spawn = require('child_process').spawn;
-var fs = require('fs');
+//var fs = require('fs');
 
 var runnableStartCmd = process.env.RUNNABLE_START_CMD;
-var cmd = runnableStartCmd.shift();
-var args = runnableStartCmd;
-var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
+//var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
+
+var serviceLauncher = runnableStartCmd.split(" ");
+
+console.log(serviceLauncher);
 
 /*
 runnableServiceCommands.split(';').forEach(function (cmd) {
