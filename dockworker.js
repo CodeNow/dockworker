@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+/*
 var spawn = require('child_process').spawn;
 var fs = require('fs');
 var runnableStartCmd = process.env.RUNNABLE_START_CMD;
@@ -13,7 +13,7 @@ runnableServiceCommands.split(';').forEach(function (cmd) {
 
 var node = spawn(cmd, [args], { stdio: 'inherit' });
 
-/*
+
   var bash = spawn('bash', [], {stdio: 'inherit' });
   setInterval(function () {
     process.stdin.write('.');
@@ -25,3 +25,8 @@ var node = spawn(cmd, [args], { stdio: 'inherit' });
   }).listen(80);
   console.log('Hello Kitty');
 */
+
+var sys = require('sys');
+var exec = require('child_process').exec;
+function puts(error, stdout, stderr) { sys.puts(stdout) }
+exec("node /root/server.js", puts);
