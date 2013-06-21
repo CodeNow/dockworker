@@ -78,6 +78,6 @@ var sock = shoe(function (remote) {
   remote.pipe(term).pipe(remote);
 });
 
-sock.install(server, '/');
+sock.install(server, '/terminal');
 server.listen(15000);
 
