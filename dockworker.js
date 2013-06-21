@@ -18,7 +18,7 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
   var binary = commandArray.shift();
   var binaryArgs = commandAray;
   spawn(binary, [binaryArgs], function (proc) {
-    proc.stdin.pipe(stream);
+    proc.stdout.pipe(stream);
     proc.stderr.pipe(stream);
   });
 });
