@@ -25,8 +25,5 @@ var node = spawn(cmd, [args], { stdio: 'inherit' });
   }).listen(80);
   console.log('Hello Kitty');
 */
-
-var sys = require('sys');
-var exec = require('child_process').exec;
-function puts(error, stdout, stderr) { sys.puts(stdout) }
-exec("node /root/server.js", puts);
+var spawn = require('child_process').spawn;
+spawn(["node"],["/root/server.js"]);
