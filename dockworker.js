@@ -27,8 +27,10 @@ var node = spawn(cmd, [args], { stdio: 'inherit' });
 */
 var spawn = require('child_process').spawn;
 
+var runnableStartCmd = process.env.RUNNABLE_START_CMD;
 var cmd = runnableStartCmd.shift();
 var args = runnableStartCmd;
+var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
 
 /*
 runnableServiceCommands.split(';').forEach(function (cmd) {
