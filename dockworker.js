@@ -26,6 +26,7 @@ var node = spawn(cmd, [args], { stdio: 'inherit' });
   console.log('Hello Kitty');
 */
 var spawn = require('child_process').spawn;
+var fs = require('fs');
 
 var runnableStartCmd = process.env.RUNNABLE_START_CMD;
 var cmd = runnableStartCmd.shift();
