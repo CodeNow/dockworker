@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 var spawn = require('child_process').spawn;
 var fs = require('fs');
 var http = require('http');
@@ -14,26 +15,7 @@ var cmd = serviceLauncher.shift();
 var args = serviceLauncher;
 
 // Launch Services
-console.log({
-  runnableServiceCommands: runnableServiceCommands,
-  runnableServiceCommandsSplit: runnableServiceCommands.split(';'),
-  binarys: runnableServiceCommands.split(';').map(function (commandLine) {
-    if (commandLine) {
-      var commandArray = commandLine.split(" ");
-      var log = "/var/log/" + commandArray.join("_") + ".log";
-      var binary = commandArray.shift();
-      var binaryArgs = commandArray;
-      return {
-        commandArray: commandArray,
-        binary: binary,
-        binaryArgs: binaryArgs,
-        log: log
-      };
-    } else {
-      return null;
-    }
-  })
-});
+
 runnableServiceCommands.split(';').forEach(function (commandLine) {
   if (commandLine) {
     var commandArray = commandLine.split(" ");
@@ -46,28 +28,18 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
   }
 });
 
-// Debug only
+// Launch user App
 
-console.log(serviceSrcDir);
-console.log(cmd);
-console.log(args);
-
-
-// Launch our App
 var applog = fs.createWriteStream("/var/log/app.log", { flags: 'a' });
 var start = spawn(cmd, args, { cwd: serviceSrcDir });
 start.stdout.pipe(applog);
 start.stderr.pipe(applog);
 
-var bash = spawn('bash', [], { stdio: 'inherit', cwd: serviceSrcDir});
-
 // tty
-var server = http.createServer();
-server.on('error', function (error) {
-  console.error(error);
-});
 
-var sock = shoe(function (remote) {
+var server = http.createServer();
+
+var termsock = shoe(function (remote) {
   var term = pty.spawn('bash', [], {
     name: 'xterm-color',
     cols: 80,
@@ -78,6 +50,16 @@ var sock = shoe(function (remote) {
   remote.pipe(term).pipe(remote);
 });
 
-sock.install(server, '/');
+termsock.install(server, '/terminal');
+
+var logsock = shoe(function (remote) {
+  var oldapplog = fs.createReadStream("/var/log/app.log");
+  oldapplog.pipe(remote);
+  start.stdout.pipe(remote);
+  start.stderr.pipe(remote);
+});
+
+termsock.install(server, '/log');
+
 server.listen(15000);
 
