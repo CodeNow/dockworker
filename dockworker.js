@@ -59,7 +59,7 @@ var logsock = shoe(function (remote) {
   start.stderr.pipe(remote);
 });
 
-termsock.install(server, '/log');
+logsock.install(server, '/log');
 
 server.listen(15000);
 
