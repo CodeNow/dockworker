@@ -31,9 +31,16 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
 // Launch user App
 
 var applog = fs.createWriteStream("/var/log/app.log", { flags: 'a' });
+var appbuffer = '';
 var start = spawn(cmd, args, { cwd: serviceSrcDir });
 start.stdout.pipe(applog);
 start.stderr.pipe(applog);
+start.stdout.on('data', function (d) {
+  appbuffer += d;
+});
+start.stderr.on('data', function (d) {
+  appbuffer += d;
+});
 
 // tty
 
@@ -53,8 +60,7 @@ var termsock = shoe(function (remote) {
 termsock.install(server, '/terminal');
 
 var logsock = shoe(function (remote) {
-  var oldapplog = fs.createReadStream("/var/log/app.log");
-  oldapplog.pipe(remote);
+  remote.write(appbuffer);
   start.stdout.pipe(remote);
   start.stderr.pipe(remote);
 });
