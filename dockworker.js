@@ -53,8 +53,8 @@ var termsock = shoe(function (remote) {
 termsock.install(server, '/terminal');
 
 var logsock = shoe(function (remote) {
-  start.stdout.pipe(remote, { end: false });
-  start.stderr.pipe(remote, { end: false });
+  var tail = spawn('tail', ['-f', '/var/log/app.log']);
+  tail.stdout.pipe(remote, { end: false });
 });
 
 logsock.install(server, '/log');
