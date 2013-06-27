@@ -8,9 +8,9 @@ var pty = require('pty.js');
 
 // Locals
 
-var serviceSrcDir = process.env.RUNNABLE_USER_DIR;
-var serviceLauncher = process.env.RUNNABLE_START_CMD.split(" ");
-var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS;
+var serviceSrcDir = process.env.RUNNABLE_USER_DIR || "/home";
+var serviceLauncher = (process.env.RUNNABLE_START_CMD || "date").split(" ");
+var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS || "";
 var cmd = serviceLauncher.shift();
 var args = serviceLauncher;
 
@@ -38,6 +38,12 @@ start.stderr.pipe(applog, { end: false });
 // tty
 
 var server = http.createServer();
+
+server.on("request", function(req, res) {
+  if (req.url.toLowerCase()  == "/api/restart") {
+    res.send("Hello World");
+  }
+});
 
 var termsock = shoe(function (remote) {
   var term = pty.spawn('bash', [], {
