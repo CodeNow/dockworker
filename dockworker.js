@@ -41,7 +41,7 @@ var server = http.createServer();
 
 server.on("request", function(req, res) {
   if (req.url.toLowerCase()  == "/api/restart") {
-    res.send("Hello World");
+    res.end("Hello World");
   }
 });
 
