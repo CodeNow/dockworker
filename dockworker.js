@@ -5,16 +5,14 @@ var fs = require('fs');
 var http = require('http');
 var shoe = require('shoe');
 var pty = require('pty.js');
+var isAppRunning = false;
 
 // Locals
 
 var serviceSrcDir = process.env.RUNNABLE_USER_DIR || "/home";
-var serviceLauncher = (process.env.RUNNABLE_START_CMD || "date").split(" ");
-var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS || "";
-var cmd = serviceLauncher.shift();
-var args = serviceLauncher;
 
 // Launch Services
+var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS || "";
 
 runnableServiceCommands.split(';').forEach(function (commandLine) {
   if (commandLine) {
@@ -30,10 +28,23 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
 
 // Launch user App
 
+var startCommandArray = (process.env.RUNNABLE_START_CMD || "date").split(" ");
+var startCmd = startCommandArray.shift();
+var startArgs = startCommandArray;
+
 var applog = fs.createWriteStream("/var/log/app.log", { flags: 'a' });
-var start = spawn(cmd, args, { cwd: serviceSrcDir });
-start.stdout.pipe(applog, { end: false });
-start.stderr.pipe(applog, { end: false });
+
+var start;
+function startApp() {
+  isAppRunning = true;
+  start = spawn(startCmd, startArgs, { cwd: serviceSrcDir });
+  start.on("exit", function() {
+    isAppRunning = false;
+  });
+  start.stdout.pipe(applog, { end: false });
+  start.stderr.pipe(applog, { end: false });
+}
+startApp();
 
 // tty
 
@@ -41,7 +52,14 @@ var server = http.createServer();
 
 server.on("request", function(req, res) {
   if (req.url.toLowerCase()  == "/api/restart") {
-    res.end("Hello World");
+    if (isAppRunning) {
+      start.kill();
+      start.once("exit", function() {
+        startApp();
+      });
+    } else {
+      startApp();
+    }
   }
 });
 
