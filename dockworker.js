@@ -5,6 +5,8 @@ var fs = require('fs');
 var http = require('http');
 var shoe = require('shoe');
 var pty = require('pty.js');
+var dnode = require('dnode');
+var MuxDemux = require('mux-demux');
 var isAppRunning = false;
 
 // Locals
@@ -17,8 +19,8 @@ var runnableServiceCommands = process.env.RUNNABLE_SERVICE_CMDS || "";
 runnableServiceCommands.split(';').forEach(function (commandLine) {
   if (commandLine) {
     var commandArray = commandLine.trim().split(" ");
-    var log = fs.createWriteStream("/var/log/" + 
-      commandArray.join("_").replace(/\//g, '_') + 
+    var log = fs.createWriteStream("/var/log/" +
+      commandArray.join("_").replace(/\//g, '_') +
       ".log", { flags: 'a' });
     var binary = commandArray.shift();
     var binaryArgs = commandArray;
@@ -66,6 +68,10 @@ server.on("request", function(req, res) {
 });
 
 var termsock = shoe(function (remote) {
+  var mx = MuxDemux();
+  var ts = mx.createStream('pty');
+  var ds = mx.createStream('dnode');
+
   var term = pty.spawn('bash', [], {
     name: 'xterm-color',
     cols: 80,
@@ -73,7 +79,16 @@ var termsock = shoe(function (remote) {
     cwd: serviceSrcDir,
     env: process.env
   });
-  remote.pipe(term).pipe(remote);
+  term.pipe(ts).pipe(term);
+
+  var d = dnode({
+    resize: function (x, y) {
+      term.resize(x, y);
+    }
+  });
+  d.pipe(ds).pipe(d);
+
+  remote.pipe(mx).pipe(remote);
 });
 
 termsock.install(server, '/terminal');

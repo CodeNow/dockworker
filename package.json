@@ -4,8 +4,9 @@
   "version": "0.0.3",
   "description": "daemon running on the docker containers",
   "dependencies": {
-    "shoe" :"0.0.11",
-    "pty.js" : "*"
-   }
+    "shoe": "0.0.11",
+    "pty.js": "*",
+    "mux-demux": "~3.7.5",
+    "dnode": "~1.0.5"
+  }
 }
-
