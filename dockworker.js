@@ -76,7 +76,7 @@ server.on("request", function(req, res) {
     } else {
       start.kill();
       start.once("exit", function() {
-        startApp();
+        isAppRunning = false;
         res.writeHead(200);
         res.end();
       });
