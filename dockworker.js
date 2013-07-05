@@ -18,7 +18,7 @@ runnableServiceCommands.split(';').forEach(function (commandLine) {
   if (commandLine) {
     var commandArray = commandLine.trim().split(" ");
     var log = fs.createWriteStream("/var/log/" + 
-      commandArray.join("_").replace('/', '_') + 
+      commandArray.join("_").replace(/\//g, '_') + 
       ".log", { flags: 'a' });
     var binary = commandArray.shift();
     var binaryArgs = commandArray;
