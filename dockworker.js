@@ -66,6 +66,7 @@ server.on("request", function(req, res) {
       });
     } else {
       startApp();
+      isAppRunning = true;
       res.writeHead(200);
       res.end();
     }
