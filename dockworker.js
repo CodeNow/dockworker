@@ -103,6 +103,7 @@ server.on("request", function(req, res) {
 });
 
 function disconnected () {
+  console.log('DC');
   connectionCount--;
   if (connectionCount === 0) {
     lastConnect = Date.now();
@@ -132,7 +133,11 @@ var termsock = shoe(function (remote) {
   d.pipe(ds).pipe(d);
 
   remote.pipe(mx).pipe(remote);
-  remote.on('close', disconnected);
+  remote._destroy = remote.destroy;
+  remote.destroy = function () {
+    disconnected();
+    remote._destroy();
+  }
 });
 
 termsock.install(server, '/terminal');
@@ -141,7 +146,11 @@ var logsock = shoe(function (remote) {
   connectionCount++;
   var tail = spawn('tail', ['-f', '/var/log/app.log']);
   tail.stdout.pipe(remote, { end: false });
-  remote.on('close', disconnected);
+  remote._destroy = remote.destroy;
+  remote.destroy = function () {
+    disconnected();
+    remote._destroy();
+  }
 });
 
 logsock.install(server, '/log');
