@@ -103,7 +103,6 @@ server.on("request", function(req, res) {
 });
 
 function disconnected () {
-  console.log('DC');
   connectionCount--;
   if (connectionCount === 0) {
     lastConnect = Date.now();
