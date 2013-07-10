@@ -88,6 +88,13 @@ server.on("request", function(req, res) {
     res.writeHead('content-type', 'application/json');
     res.writeHead(200);
     res.end(JSON.stringify({ running: isAppRunning }));
+  } else if (req.url.toLowerCase() == "/api/connection") {
+    res.writeHead('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify({
+      connectionCount: connectionCount,
+      lastConnect: lastConnect
+    }));
   } else {
     res.writeHead(404);
     res.end();
