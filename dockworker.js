@@ -7,7 +7,6 @@ var shoe = require('shoe');
 var pty = require('pty.js');
 var dnode = require('dnode');
 var MuxDemux = require('mux-demux');
-var isAppRunning = false;
 var connectionCount = 0;
 var lastConnect = Date.now();
 
@@ -40,16 +39,27 @@ var startArgs = startCommandArray;
 
 var applog = fs.createWriteStream("/var/log/app.log", { flags: 'a' });
 
-var start;
+var theApp = null;
+var isAppRunning = false;
 
-function startApp() {
-  isAppRunning = true;
-  start = spawn(startCmd, startArgs, { cwd: serviceSrcDir });
-  start.on("exit", function() {
-    isAppRunning = false;
+function startApp(cb) {
+  theApp = spawn(startCmd, startArgs, {
+    cwd: serviceSrcDir,
+    env: process.env
   });
-  start.stdout.pipe(applog, { end: false });
-  start.stderr.pipe(applog, { end: false });
+  theApp.stdout.pipe(applog, { end: false });
+  theApp.stderr.pipe(applog, { end: false });
+  cb();
+}
+
+function stopApp(cb) {
+  if (theApp) {
+    theApp.once('close', function (code, signal) {
+      theApp = null;
+      cb();
+    });
+    theApp.kill();
+  }
 }
 
 // tty
@@ -60,28 +70,40 @@ server.on("request", function(req, res) {
 
   if (req.url.toLowerCase()  == "/api/start") {
     if (isAppRunning) {
-      start.kill();
-      start.once("exit", function() {
-        startApp();
-        res.writeHead(200);
-        res.end();
-      });
+      res.writeHead('content-type', 'application/json');
+      res.writeHead(409);
+      res.end(JSON.stringify({ message: 'application alraedy started' }));
     } else {
-      startApp();
-      isAppRunning = true;
-      res.writeHead(200);
-      res.end();
+      startApp(function (err) {
+        if (err) {
+          res.writeHead('content-type', 'application/json');
+          res.writeHead(500);
+          res.end(JSON.stringify({ message: 'error starting application' }));
+        } else {
+          isAppRunning = true;
+          res.writeHead('content-type', 'application/json');
+          res.writeHead(200);
+          res.end(JSON.stringify({ message: 'application started successfully' }));
+        }
+      });
     }
   } else if (req.url.toLowerCase()  == "/api/stop") {
     if (!isAppRunning) {
-      res.writeHead(200);
-      res.end();
+      res.writeHead('content-type', 'application/json');
+      res.writeHead(409);
+      res.end(JSON.stringify({ message: 'application already stopped' }));
     } else {
-      start.kill();
-      start.once("exit", function() {
-        isAppRunning = false;
-        res.writeHead(200);
-        res.end();
+      stopApp(function (err) {
+        if (err) {
+          res.writeHead('content-type', 'application/json');
+          res.writeHead(500);
+          res.end(JSON.stringify({ message: 'error stopping application' }));
+        } else {
+          isAppRunning = false;
+          res.writeHead('content-type', 'application/json');
+          res.writeHead(200);
+          res.end(JSON.stringify({ message: 'application stopped successfully' }));
+        }
       });
     }
   } else if (req.url.toLowerCase() == "/api/running") {
@@ -155,4 +177,3 @@ var logsock = shoe(function (remote) {
 logsock.install(server, '/log');
 
 server.listen(15000);
-
