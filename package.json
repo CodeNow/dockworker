@@ -13,5 +13,9 @@
   },
   "scripts": {
     "start": "node index.js"
+  },
+  "devDependencies": {
+    "browserify": "~2.25.0",
+    "tty.js": "~0.2.10"
   }
 }

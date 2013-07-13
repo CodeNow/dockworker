@@ -1,4 +1,4 @@
-require('./launchServices');
-require('./webStreams');
-require('./appCtrl');
-require('./server').listen(15000);
+require('./lib/launchServices');
+require('./lib/webStreams');
+require('./lib/appCtrl');
+require('./lib/server').listen(15000);
