@@ -19,7 +19,6 @@ var theApp = null;
 var isAppRunning = false;
 
 function startApp(cb) {
-  console.log(startCmd, startArgs, serviceSrcDir);
   theApp = spawn(startCmd, startArgs, {
     cwd: serviceSrcDir,
     env: process.env
