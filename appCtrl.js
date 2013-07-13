@@ -3,6 +3,7 @@ var spawn = require('child_process').spawn;
 var express = require('express');
 var webStreams = require('./webstreams');
 var server = require('./server');
+var createDomain = require('domain').create;
 
 var app = express();
 
@@ -14,62 +15,122 @@ var startCmd = startCommandArray.shift();
 var startArgs = startCommandArray;
 
 var applog = fs.createWriteStream("/var/log/app.log", { flags: 'a' });
+applog.on('error', function (err) {
+  console.error('applog error');
+  console.error(err.stack);
+});
 
 var theApp = null;
 var isAppRunning = false;
 
 function startApp(cb) {
-  theApp = spawn(startCmd, startArgs, {
-    cwd: serviceSrcDir,
-    env: process.env
-  });
-  theApp.once('close', function (code, signal) {
-    theApp = null;
+  var domain = createDomain();
+  domain.on('error', function (err) {
+    console.error('startApp error');
+    console.error(err.stack);
+    if (typeof cb === 'function') {
+      cb(err);
+      cb = null;
+    }
+    domain.members.forEach(function (stream) {
+      if (typeof stream.destroy === 'function') {
+        stream.destroy();
+      }
+      if (typeof stream.kill === 'function') {
+        stream.kill();
+      }
+    });
     isAppRunning = false;
   });
-  theApp.stdout.pipe(applog, { end: false });
-  theApp.stderr.pipe(applog, { end: false });
-  cb();
+  domain.run(function () {
+    theApp = spawn(startCmd, startArgs, {
+      cwd: serviceSrcDir,
+      env: process.env
+    });
+    domain.add(theApp);
+    theApp.once('close', function (code, signal) {
+      theApp = null;
+      isAppRunning = false;
+    });
+    theApp.stdout.pipe(applog, { end: false });
+    theApp.stderr.pipe(applog, { end: false });
+    cb();
+    cb = null;
+    isAppRunning = true;
+  });
+
 }
 
 function stopApp(cb) {
-  if (theApp) {
-    theApp.once('close', function (code, signal) {
-      theApp = null;
-      cb();
+  var domain = createDomain();
+  domain.on('error', function (err) {
+    console.error('stopApp error');
+    console.error(err.stack);
+    if (typeof cb === 'function') {
+      cb(err);
+      cb = null;
+    }
+    domain.members.forEach(function (stream) {
+      if (typeof stream.destroy === 'function') {
+        stream.destroy();
+      }
+      if (typeof stream.kill === 'function') {
+        stream.kill();
+      }
     });
-    theApp.kill();
-  }
+    isAppRunning = false;
+  });
+  domain.run(function () {
+    if (theApp) {
+      domain.add(theApp);
+      theApp.once('close', function (code, signal) {
+        theApp = null;
+        cb();
+        cb = null;
+        isAppRunning = false;
+      });
+      theApp.kill();
+    } else {
+      cb();
+      cb = null;
+    }
+  });
 }
 
 app.get('/api/start', function (req, res) {
-	if (isAppRunning) {
-    res.json(409, { message: 'application already started' });
-  } else {
-    startApp(function (err) {
-      if (err) {
-        res.json(500, { message: 'error starting application' });
-      } else {
-        isAppRunning = true;
+  var domain = createDomain();
+  domain.on('error', function (err) {
+    console.error('api/start error');
+    console.error(err.stack);
+    res.json(500, { message: 'error starting application' });
+  });
+  domain.run(function () {
+    if (isAppRunning) {
+      res.json(409, { message: 'application already started' });
+    } else {
+      startApp(domain.intercept(function () {
         res.json(200, { message: 'application started successfully' });
-      }
-    });
-  }
+      }));
+    }
+  });
 });
 
 app.get('/api/stop', function (req, res) {
-  if (!isAppRunning) {
-    res.json(409, { message: 'application already stopped' });
-  } else {
-    stopApp(function (err) {
-      if (err) {
-        res.json(500, { message: 'error stopping application' });
-      } else {
-        isAppRunning = false;
+  var domain = createDomain();
+  domain.on('error', function (err) {
+    console.error('api/stop error');
+    console.error(err.stack);
+    res.json(500, { message: 'error stopping application' });
+  });
+  domain.run(function () {
+    if (!isAppRunning) {
+      res.json(409, { message: 'application already stopped' });
+    } else {
+      stopApp(domain.intercept(function () {
         res.json(200, { message: 'application stopped successfully' });
-      }
-    });
-  }
+      }));
+    }
+  });
 });
 
 app.get('/api/running', function (req, res) {
@@ -81,7 +142,7 @@ app.get('/api/connection', function (req, res) {
 });
 
 server.on('request', function (req, res) {
-  if (!res.finished) {
+  if (/^\/api\//.test(req.url)) {
     app(req, res);
   }
 });
