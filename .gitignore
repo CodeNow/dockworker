@@ -9,6 +9,8 @@ lib-cov
 *.out
 *.pid
 *.gz
+client/logBundle.js
+client/termBundle.js
 
 pids
 logs
