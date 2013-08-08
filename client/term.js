@@ -13,7 +13,6 @@ window.start = createStream;
 function createStream () {
   var stream = shoe('/terminal');
   var muxDemux = MuxDemux(onStream);
-  console.log(muxDemux);
   stream.on('error', console.error.bind(console));
   stream.on('end', onEnd);
   stream.pipe(muxDemux).pipe(stream);
