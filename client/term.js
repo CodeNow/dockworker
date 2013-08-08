@@ -14,7 +14,7 @@ function createStream () {
   var stream = shoe('/terminal');
   var muxDemux = MuxDemux(onStream);
   console.log(muxDemux);
-  stream.on('error', onError);
+  stream.on('error', console.error.bind(console));
   stream.on('end', onEnd);
   stream.pipe(muxDemux).pipe(stream);
 }
@@ -61,10 +61,6 @@ function onDnode (stream) {
 
 function onRemote (remote) {
   remoteResize = remote.resize.bind(remote);
-}
-
-function onError (err) {
-  console.error(err)
 }
 
 function onEnd () {

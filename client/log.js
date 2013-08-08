@@ -10,7 +10,7 @@ window.start = createStream;
 function createStream () {
   var stream = shoe('/log');
   stream.on('connect', onConnect.bind(null, stream));
-  stream.on('error', onError);
+  stream.on('error', console.error.bind(console));
   stream.on('end', onEnd);
 }
 
@@ -19,16 +19,13 @@ function onConnect (stream) {
   var term = new Terminal(80, 24, noop);
   window.term = term;
   term.open();
+  stream.on('end', document.removeChild.bind(document.body, term.element));
   stream.on('data', writeToTerm.bind(null, term));
   term.end = endTerm;
   var resizeTerm = resize.bind(null, term);
   resizeTerm();
   setTimeout(resizeTerm, 1000);
   window.onresize = resizeTerm;
-}
-
-function onError (err) {
-  console.error(err)
 }
 
 function onEnd () {
