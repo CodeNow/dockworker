@@ -1,4 +1,4 @@
-var Terminal = require('tty.js/static/term');
+var Terminal = require('term.js');
 var shoe = require('shoe');
 
 

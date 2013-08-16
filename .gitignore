@@ -15,3 +15,7 @@ logs
 results
 
 npm-debug.log
+
+client/logBundle.js
+
+client/termBundle.js

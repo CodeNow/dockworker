@@ -1,7 +1,7 @@
 var shoe = require('shoe');
 var dnode = require('dnode');
 var MuxDemux = require('mux-demux');
-var Terminal = require('tty.js/static/term');
+var Terminal = require('term.js');
 var remoteResize;
 
 window.start = function () {
@@ -17,10 +17,12 @@ window.start = function () {
 };
 
 function onPty (stream) {
-  var term = new Terminal(80, 30, function (data) {
-    stream.write(data);
+  var term = new Terminal({
+    cols: 80,
+    rows: 24
   });
-  term.open();
+  term.on('data', stream.write);
+  term.open(document.body);
   stream.pipe(term);
   term.end = term.destroy;
 
