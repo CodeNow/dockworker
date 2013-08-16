@@ -7,15 +7,14 @@ window.start = function () {
 };
 
 function onConnect (stream) {
-  var term = new Terminal(80, 24, function (data) {});
-  window.term = term;
-  term.open();
-  stream.on('data', function (data) {
-    term.write(data.replace(/\r?\n/g, '\r\n'));
+  var term = new Terminal({
+    cols: 80,
+    rows: 24
   });
-  term.end = function () {
-    console.log('END');
-  };
+  window.term = term;
+  term.open(document.body);
+  stream.pipe(term);
+  term.end = term.destroy;
 
   var interval = setInterval(resize,500);
   setTimeout(function () {
