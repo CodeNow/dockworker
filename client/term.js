@@ -5,7 +5,7 @@ var Terminal = require('term.js');
 var remoteResize;
 
 window.start = function () {
-  var stream = shoe('http://localhost:15000/terminal');
+  var stream = shoe('/streams/terminal');
   stream.pipe(MuxDemux(function (stream) {
     if (stream.meta === 'pty') {
       onPty(stream);

@@ -3,7 +3,7 @@ var shoe = require('shoe');
 
 
 window.start = function () {
-  onConnect(shoe('http://localhost:15000/log'));
+  onConnect(shoe('/streams/log'));
 };
 
 function onConnect (stream) {
