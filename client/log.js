@@ -1,20 +1,17 @@
-var Terminal = require('tty.js/static/term');
-var shoe = require('shoe');
+var Terminal = require('term.js');
+var reconnect = require('reconnect/shoe');
 var dnode = require('dnode');
-var MuxDemux = require('mux-demux');
 var remoteResize;
-var minDelay = 500;
-var delay = minDelay;
-var increment = 500;
-var maxDelay = 60 * 1000;
+var MuxDemux = require('mux-demux');
 
 window.start = createStream;
 
 function createStream () {
-  var stream = shoe('/log');
+  reconnect(onConnect).connect('/streams/log');
+}
+
+function onConnect (stream) {
   var muxDemux = MuxDemux(onStream);
-  stream.on('error', console.error.bind(console));
-  stream.on('end', onEnd);
   stream.pipe(muxDemux).pipe(stream);
 }
 
@@ -28,8 +25,12 @@ function onStream (stream) {
 }
 
 function onPty (stream) {
-  delay = minDelay;
-  var term = new Terminal(80, 24, noop);
+  var term = new Terminal({
+    cols: 80,
+    rows: 24,
+    useStyle: true,
+    screenKeys: true
+  });
   window.term = term;
   term.open();
   stream.on('end', document.removeChild.bind(document.body, term.element));
@@ -39,13 +40,6 @@ function onPty (stream) {
   resizeTerm();
   setTimeout(resizeTerm, 1000);
   window.onresize = resizeTerm;
-}
-
-function onEnd () {
-  setTimeout(createStream, delay);
-  if (delay < maxDelay) {
-    delay += increment;
-  }
 }
 
 function noop () {}
