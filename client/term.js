@@ -25,7 +25,7 @@ function onStream (stream) {
 }
 
 function onPty (stream) {
-  var term = new Terminal({
+  var term = window.term = new Terminal({
     cols: 80,
     rows: 24,
     useStyle: true,
