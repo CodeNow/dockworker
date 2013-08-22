@@ -19,6 +19,7 @@
   "devDependencies": {
     "browserify": "~2.25.0",
     "term.js": "0.0.2",
-    "reconnect": "~1.5.2"
+    "reconnect": "~1.5.2",
+    "es5-shimify": "~2.0.5"
   }
 }

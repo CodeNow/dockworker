@@ -1,3 +1,4 @@
+require('es5-shimify');
 var Terminal = require('term.js');
 var reconnect = require('reconnect/shoe');
 var dnode = require('dnode');
