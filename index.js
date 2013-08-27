@@ -1,3 +1,4 @@
+require('./lib/cleanup');
 require('./lib/launchServices');
 require('./lib/webStreams');
 require('./lib/appCtrl');
