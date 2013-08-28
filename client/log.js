@@ -1,19 +1,21 @@
 require('es5-shimify');
 var Terminal = require('term.js');
-var reconnect = require('reconnect/shoe');
+var shoe = require('shoe');
 var dnode = require('dnode');
 var remoteResize;
 var MuxDemux = require('mux-demux');
 
-window.start = createStream;
+window.start = onConnect;
 
-function createStream () {
-  reconnect(onConnect).connect('/streams/log');
-}
-
-function onConnect (stream) {
+function onConnect () {
+  var stream = shoe('/streams/log');
   var muxDemux = MuxDemux(onStream);
   stream.pipe(muxDemux).pipe(stream);
+  stream.on('end', reconnect);
+}
+
+function reconnect () {
+  setTimeout(onConnect, 5000);
 }
 
 function onStream (stream) {

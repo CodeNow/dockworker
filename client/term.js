@@ -1,23 +1,27 @@
 require('es5-shimify');
 var Terminal = require('term.js');
-var reconnect = require('reconnect/shoe');
+var shoe = require('shoe');
 var dnode = require('dnode');
 var remoteResize;
 var MuxDemux = require('mux-demux');
 
-window.start = createStream;
+window.start = onConnect;
 
-function createStream () {
-  reconnect(onConnect).connect('/streams/terminal');
-}
-
-function onConnect (stream) {
+function onConnect () {
+  var stream = shoe('/streams/terminal');
   var muxDemux = MuxDemux(onStream);
   stream.pipe(muxDemux).pipe(stream);
+  stream.on('end', reconnect);
+}
+
+function reconnect () {
+  setTimeout(onConnect, 5000);
 }
 
 function onStream (stream) {
+  console.log(0.5, stream);
   if (stream.meta === 'pty') {
+    console.log(1);
     onPty(stream);
   }
   if (stream.meta === 'dnode') {
@@ -26,6 +30,7 @@ function onStream (stream) {
 }
 
 function onPty (stream) {
+  console.log(2);
   var term = window.term = new Terminal({
     cols: 80,
     rows: 24,
