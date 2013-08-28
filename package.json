@@ -13,7 +13,8 @@
     "ecstatic": "~0.4.7",
     "dnode": "~1.0.5",
     "rimraf": "~2.2.2",
-    "browserify": "~2.25.1"
+    "browserify": "~2.25.1",
+    "async": "~0.2.9"
   },
   "scripts": {
     "start": "node index.js"
