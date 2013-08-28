@@ -12,7 +12,8 @@
     "concat-stream": "~1.0.0",
     "ecstatic": "~0.4.6",
     "dnode": "~1.0.5",
-    "rimraf": "*"
+    "rimraf": "~2.2.2",
+    "async": "~0.2.9"
   },
   "scripts": {
     "start": "node index.js"
