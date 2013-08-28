@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "browserify": "~2.29.0",
-    "term.js": "0.0.3",
+    "term.js": "0.0.2",
     "es5-shimify": "~2.0.5"
   }
 }
