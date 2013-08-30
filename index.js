@@ -4,5 +4,3 @@ require('./lib/webStreams');
 require('./lib/appCtrl');
 require('./lib/client.js');
 require('./lib/server').listen(15000);
-
-process.on('SIGKILL', process.exit);
