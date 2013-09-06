@@ -24,6 +24,7 @@
     "term.js": "0.0.2",
     "es5-shimify": "~2.0.5",
     "mocha": "~1.12.1",
-    "request": "~2.27.0"
+    "request": "~2.27.0",
+    "hyperquest": "~0.1.7"
   }
 }
