@@ -16,11 +16,14 @@
     "async": "~0.2.9"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "NODE_ENV=testing RUNNABLE_START_CMD='sleep 1000' RUNNABLE_USER_DIR=/ RUNNABLE_SERVICE_CMDS='sleep 1000;sleep 1000' node_modules/.bin/mocha -R spec tests"
   },
   "devDependencies": {
     "browserify": "~2.29.0",
     "term.js": "0.0.2",
-    "es5-shimify": "~2.0.5"
+    "es5-shimify": "~2.0.5",
+    "mocha": "~1.12.1",
+    "request": "~2.27.0"
   }
 }
