@@ -43,17 +43,4 @@ describe('terminal', function (){
     });
     pty.write('echo foo\n');
   });
-
-  it('should be connected', function (done) {
-    hyperquest
-      .get({uri: 'http://localhost:15000/api/connection'})
-      .pipe(concat(function (raw) {
-        var data = JSON.parse(raw);
-        if (data.connectionCount === 0) {
-          done(new Error('not enough connections: ' + data.connectionCount));
-        } else {
-          done();
-        }
-      }));
-  });
 });
