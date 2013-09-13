@@ -1,6 +1,6 @@
 var request = require('request');
 require('..');
-var dir = require('os').tmpdir();
+var dir = require('path').join(__dirname, "..");
 var path = 'tmp'
 try {
   require('fs').mkdirSync(dir + '/' + path);
