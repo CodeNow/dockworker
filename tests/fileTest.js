@@ -1,10 +1,7 @@
 var request = require('request');
 require('..');
-var dir = require('path').join(__dirname, "..");
+var dir = '/';
 var path = 'tmp'
-try {
-  require('fs').mkdirSync(dir + '/' + path);
-} catch(e) {}
 var fileName = 'myCoolFile' + Date.now() + '.txt';
 var newName = 'myCoolerFile' + Date.now() + '.txt';
 var nonExisting = 'trololol.vb';

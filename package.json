@@ -25,6 +25,7 @@
     "es5-shimify": "~2.0.5",
     "mocha": "~1.12.1",
     "request": "~2.27.0",
-    "hyperquest": "~0.1.7"
+    "hyperquest": "~0.1.7",
+    "fake-fs": "~0.2.1"
   }
 }
