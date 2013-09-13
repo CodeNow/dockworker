@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "NODE_ENV=testing RUNNABLE_START_CMD='sleep 1000' RUNNABLE_USER_DIR=/ RUNNABLE_SERVICE_CMDS='sleep 1000;sleep 1000' node_modules/.bin/mocha -R spec tests"
+    "test": "NODE_ENV=testing RUNNABLE_START_CMD='sleep 1000' RUNNABLE_USER_DIR=~ RUNNABLE_SERVICE_CMDS='sleep 1000;sleep 1000' node_modules/.bin/mocha -R spec tests"
   },
   "devDependencies": {
     "browserify": "~2.29.0",
