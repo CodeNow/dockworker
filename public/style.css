@@ -19,9 +19,10 @@ html{
 .reverse-video {
   color: #000;
   background: #f0f0f0;
-}
-.blur .reverse-video {
   display: none;
+}
+.focused .reverse-video {
+  display: block;
 }
 #loader {
   position: absolute;
