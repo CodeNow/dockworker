@@ -22,7 +22,7 @@ html{
   display: none;
 }
 .focused .reverse-video {
-  display: block;
+  display: inline;
 }
 #loader {
   position: absolute;
