@@ -32,4 +32,18 @@ describe('Reporters', function (){
       });
     })
   })
+  describe('servicesToken', function () {
+    it('should return', function (done) {
+      request({
+        url: 'http://localhost:15000/api/servicesToken',
+        json: {}
+      }, function (err, res, body) {
+        if (err) {
+          done(err);
+        } else {
+          done();
+        }
+      });
+    })
+  })
 })
