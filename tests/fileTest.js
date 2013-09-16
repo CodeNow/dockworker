@@ -228,7 +228,7 @@ describe('Files', function (){
         }
       });
     })
-    it('should delte existing files', function (done){
+    it('should delete existing files', function (done){
       request.post({
         url: 'http://localhost:15000/api/files/delete',
         json: {
