@@ -16,13 +16,9 @@ html{
   display: inline-block;
   background: #383734 !important; /* grey bg */
 }
-.reverse-video {
-  color: #000;
-  background: #f0f0f0;
-  display: none;
-}
 .focused .reverse-video {
-  display: inline;
+  color: #383734;
+  background: #f0f0f0;
 }
 #loader {
   position: absolute;
