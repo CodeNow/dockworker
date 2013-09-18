@@ -14,7 +14,7 @@
     "rimraf": "~2.2.2",
     "browserify": "~2.25.1",
     "async": "~0.2.9",
-    "touch": "*"
+    "touch": "0.0.2"
   },
   "scripts": {
     "start": "node index.js",
