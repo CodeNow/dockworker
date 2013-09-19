@@ -50,18 +50,25 @@ describe('Control', function (){
       });
     })
     it('should say hello', function (done) {
-      request({
-        url: 'http://localhost:8080',
-        json: {}
-      }, function (err, res, body) {
-        if (err) {
-          done(err);
-        } else if (body !== 'hello') {
-          done(new Error('rude'));
-        } else {
-          done();
-        }
-      });
+      checkConnection();
+      function checkConnection () {
+        request({
+          url: 'http://localhost:8080',
+          json: {}
+        }, function (err, res, body) {
+          if (err) {
+            if (err.code === 'ECONNREFUSED') {
+              setTimeout(checkConnection, 10);
+            } else {
+              done(err);
+            }
+          } else if (body !== 'hello') {
+            done(new Error('rude'));
+          } else {
+            done();
+          }
+        });
+      }
     })
   })
   describe('restart', function (){
@@ -94,18 +101,25 @@ describe('Control', function (){
       });
     })
     it('should say hello', function (done){
-      request({
-        url: 'http://localhost:8080',
-        json: {}
-      }, function (err, res, body) {
-        if (err) {
-          done(err);
-        } else if (body !== 'hello') {
-          done(new Error('rude'));
-        } else {
-          done();
-        }
-      });
+      checkConnection();
+      function checkConnection () {
+        request({
+          url: 'http://localhost:8080',
+          json: {}
+        }, function (err, res, body) {
+          if (err) {
+            if (err.code === 'ECONNREFUSED') {
+              setTimeout(checkConnection, 10);
+            } else {
+              done(err);
+            }
+          } else if (body !== 'hello') {
+            done(new Error('rude'));
+          } else {
+            done();
+          }
+        });
+      }
     })
   })
   describe('stop', function (){
