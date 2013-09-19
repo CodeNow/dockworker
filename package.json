@@ -14,6 +14,7 @@
     "rimraf": "~2.2.2",
     "browserify": "~2.25.1",
     "async": "~0.2.9",
+    "request": "~2.27.0",
     "touch": "0.0.2"
   },
   "scripts": {
@@ -25,7 +26,6 @@
     "term.js": "0.0.2",
     "es5-shimify": "~2.0.5",
     "mocha": "~1.12.1",
-    "request": "~2.27.0",
     "hyperquest": "~0.1.7",
     "fake-fs": "~0.2.1"
   }
