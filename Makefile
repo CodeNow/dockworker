@@ -1,5 +1,6 @@
 build:
-	@ ./node_modules/.bin/browserify ./lib/client.js -d -o ./public/bundle.js;
+	@ ./node_modules/.bin/browserify ./lib/client.js -o ./public/bundle.js 
+	@ ./node_modules/.bin/esmangle ./public/bundle.js -o ./public/bundle.js
 install:
 	@npm install
 npminstall:
