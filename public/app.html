@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset='utf-8'>
+<title>app</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script>
+  (function () {
+    var buildFrame = document.createElement('iframe');
+    buildFrame.src = 'build.html';
+
+    var tailFrame = document.createElement('iframe');
+    tailFrame.src = 'log.html';
+    
+    function onStart () {
+      document.body.appendChild(buildFrame);
+    }
+
+    function receiveMessage (event) {
+      if (event.data === 'done') {
+        setTimeout(function () {
+          document.body.removeChild(buildFrame);
+          document.body.appendChild(tailFrame);
+          var startRequest = new XMLHttpRequest();
+          startRequest.open('GET', '/api/start', true);
+          startRequest.send();
+        }, 1000);
+      }
+    }
+
+    window.addEventListener("message", receiveMessage, false);
+    window.start = onStart; 
+  })();
+</script>
+<body onload="window.start();">
