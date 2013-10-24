@@ -15,14 +15,19 @@
     }
 
     function receiveMessage (event) {
-      if (event.data === 'done') {
-        setTimeout(function () {
-          document.body.removeChild(buildFrame);
-          document.body.appendChild(tailFrame);
-          var startRequest = new XMLHttpRequest();
-          startRequest.open('GET', '/api/start', true);
-          startRequest.send();
-        }, 1000);
+      var data = JSON.parse(event.data);
+      if (data.type === 'code') {
+        if (data.code === 0) {
+          setTimeout(function () {
+            document.body.removeChild(buildFrame);
+            document.body.appendChild(tailFrame);
+            var startRequest = new XMLHttpRequest();
+            startRequest.open('GET', '/api/start', true);
+            startRequest.send();
+          }, 1000);
+        } else {
+          alert('fail');
+        }
       }
     }
 

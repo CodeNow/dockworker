@@ -10,7 +10,6 @@
     "mux-demux": "~3.7.8",
     "express": "~3.3.6",
     "concat-stream": "~1.0.1",
-    "dnode": "~1.0.5",
     "rimraf": "~2.2.2",
     "browserify": "~2.25.1",
     "async": "~0.2.9",
@@ -19,7 +18,9 @@
     "from": "~0.1.3",
     "portscanner": "~0.1.3",
     "esmangle": "0.0.15",
-    "formidable": "~1.0.14"
+    "formidable": "~1.0.14",
+    "emit-stream": "~0.1.2",
+    "JSONStream": "~0.7.1"
   },
   "scripts": {
     "start": "node index.js",
