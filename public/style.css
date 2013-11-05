@@ -24,7 +24,8 @@ html{
   position: absolute;
   z-index: 10;
   width: 100%;
-  top: 30%;
+  top: 50%;
+  top: calc(50%-18px);
   text-align: center;
   color: white;
 }
