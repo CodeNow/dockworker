@@ -1,5 +1,5 @@
-require('./lib/cleanup');
-require('./lib/launchServices');
+require('./lib/dockCleaner');
+require('./lib/serviceCommands');
 require('./lib/webStreams');
 require('./lib/app');
 require('./lib/server').listen(15000);
