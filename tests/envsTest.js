@@ -42,7 +42,7 @@ describe('Envs', function () {
       }, function (err, res, body) {
         if (err) {
           done(err);
-        } else if (body.flow === null) {
+        } else if (body.flow == null) {
           done(new Error());
         } else {
           done();
