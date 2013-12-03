@@ -11,7 +11,6 @@
     "express": "~3.3.6",
     "concat-stream": "~1.0.1",
     "rimraf": "~2.2.2",
-    "browserify": "~2.25.1",
     "async": "~0.2.9",
     "request": "~2.27.0",
     "touch": "0.0.2",
@@ -24,8 +23,10 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "NODE_ENV=testing mocha -R spec tests",
-    "build": "browserify ./lib/views/client.js -o ./public/bundle.js && esmangle ./public/bundle.js -o ./public/bundle.js"
+    "test": "npm run lint && NODE_ENV=testing mocha -R spec tests",
+    "build": "npm run lint && browserify ./lib/views/client.js -o ./public/bundle.js && esmangle ./public/bundle.js -o ./public/bundle.js",
+    "lint": "jshint --verbose --show-non-errors .",
+    "fix": "fixmyjs ."
   },
   "devDependencies": {
     "browserify": "~2.29.0",
@@ -33,6 +34,8 @@
     "es5-shimify": "~2.0.5",
     "mocha": "~1.12.1",
     "hyperquest": "~0.1.7",
-    "fake-fs": "~0.2.1"
+    "fake-fs": "~0.2.1",
+    "jshint": "~2.3.0",
+    "fixmyjs": "~0.13.1"
   }
 }

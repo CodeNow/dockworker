@@ -1,19 +1,18 @@
 var request = require('request');
-process.env.RUNNABLE_START_CMD = 'sleep 1000'; 
-process.env.RUNNABLE_USER_DIR = '~'; 
+process.env.RUNNABLE_START_CMD = 'sleep 1000';
+process.env.RUNNABLE_USER_DIR = '~';
 process.env.RUNNABLE_SERVICE_CMDS = 'sleep 1000;sleep 1000';
 require('..');
 var dir = '/';
-var path = 'tmp'
+var path = 'tmp';
 var fileName = 'myCoolFile' + Date.now() + '.txt';
 var newName = 'myCoolerFile' + Date.now() + '.txt';
 var nonExisting = 'trololol.vb';
 var content = 'this is really cool content';
 var update = 'this is way cooler content';
-
-describe('Files', function (){
-  describe('create', function (){
-    it('should not error the first time', function (done){
+describe('Files', function () {
+  describe('create', function () {
+    it('should not error the first time', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/create',
         json: {
@@ -26,13 +25,13 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode >= 300) {
-          done(new Error(body.message));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should error the second time', function (done){
+    });
+    it('should error the second time', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/create',
         json: {
@@ -45,15 +44,15 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode <= 300) {
-          done(new Error('should not have worked'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-  })
-  describe('read', function (){
-    it('should be cool', function (done){
+    });
+  });
+  describe('read', function () {
+    it('should be cool', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/read',
         json: {
@@ -65,17 +64,17 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode >= 300) {
-          done(new Error(body.message));
+          done(new Error());
         } else if (body !== content) {
-          done(new Error('not cool bro'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-  })
-  describe('update', function (){
-    it('should work for the existing file', function (done){
+    });
+  });
+  describe('update', function () {
+    it('should work for the existing file', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/update',
         json: {
@@ -88,13 +87,13 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode >= 300) {
-          done(new Error(body.message));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should have updated the existing file', function (done){
+    });
+    it('should have updated the existing file', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/read',
         json: {
@@ -106,15 +105,15 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode >= 300) {
-          done(new Error(body.message));
+          done(new Error());
         } else if (body !== update) {
-          done(new Error('not cooler bro'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should should fail on a non-existing file', function (done){
+    });
+    it('should should fail on a non-existing file', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/read',
         json: {
@@ -126,15 +125,15 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode <= 300) {
-          done(new Error('should not have worked'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-  })
-  describe('rename', function (){
-    it('should fail a non-existing file', function (done){
+    });
+  });
+  describe('rename', function () {
+    it('should fail a non-existing file', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/rename',
         json: {
@@ -147,13 +146,13 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode <= 300) {
-          done(new Error('should not have worked'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should work on an existing file', function (done){
+    });
+    it('should work on an existing file', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/rename',
         json: {
@@ -166,13 +165,13 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode >= 300) {
-          done(new Error('should have worked'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should not exist in the old location', function (done){
+    });
+    it('should not exist in the old location', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/read',
         json: {
@@ -184,13 +183,13 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode <= 300) {
-          done(new Error('should have failed'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should exist in the new location', function (done){
+    });
+    it('should exist in the new location', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/read',
         json: {
@@ -202,15 +201,15 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode >= 300) {
-          done(new Error('should not have failed'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-  })
-  describe('delete', function (){
-    it('should error for non-existing files', function (done){
+    });
+  });
+  describe('delete', function () {
+    it('should error for non-existing files', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/delete',
         json: {
@@ -222,13 +221,13 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode <= 300) {
-          done(new Error('should have failed'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should delete existing files', function (done){
+    });
+    it('should delete existing files', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/delete',
         json: {
@@ -240,13 +239,13 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode >= 300) {
-          done(new Error('should not have failed'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should have deleted the file', function (done){
+    });
+    it('should have deleted the file', function (done) {
       request.post({
         url: 'http://localhost:15000/api/files/read',
         json: {
@@ -258,11 +257,11 @@ describe('Files', function (){
         if (err) {
           done(err);
         } else if (res.statusCode <= 300) {
-          done(new Error('should have failed'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-  })
-})
+    });
+  });
+});
