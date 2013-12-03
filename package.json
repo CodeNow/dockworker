@@ -25,7 +25,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "NODE_ENV=testing mocha -R spec tests",
-    "build": "browserify ./lib/client.js -o ./public/bundle.js && esmangle ./public/bundle.js -o ./public/bundle.js"
+    "build": "browserify ./lib/views/client.js -o ./public/bundle.js && esmangle ./public/bundle.js -o ./public/bundle.js"
   },
   "devDependencies": {
     "browserify": "~2.29.0",
