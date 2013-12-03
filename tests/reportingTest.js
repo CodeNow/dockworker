@@ -1,21 +1,5 @@
 var request = require('request');
 describe('Reporters', function () {
-  describe('running', function () {
-    it('should return a boolean running attribute', function (done) {
-      request({
-        url: 'http://localhost:15000/api/running',
-        json: {}
-      }, function (err, res, body) {
-        if (err) {
-          done(err);
-        } else if (typeof body.running !== 'boolean') {
-          done(new Error());
-        } else {
-          done();
-        }
-      });
-    });
-  });
   describe('envs', function () {
     it('should return', function (done) {
       request({
