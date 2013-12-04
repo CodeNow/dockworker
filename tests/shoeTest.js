@@ -22,6 +22,17 @@ describe('Streams', function () {
         stream.write('echo $RUNNABLE_START_CMD\n');
       }
     });
+    it('should have web down', function (done) {
+      request('http://localhost:15000/api/checkWebUp', function (err, res, body) {
+        if (err) {
+          done(err);
+        } else if (res.statusCode !== 500) {
+          done(new Error());
+        } else {
+          done();
+        }
+      });
+    });
   });
   describe('logs', function () {
     before(function () {
