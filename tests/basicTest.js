@@ -3,6 +3,7 @@ process.env.RUNNABLE_START_CMD = 'npm start';
 process.env.RUNNABLE_BUILD_CMD = 'npm run build';
 process.env.RUNNABLE_USER_DIR = __dirname + '/fixtures';
 process.env.RUNNABLE_SERVICE_CMDS = 'sleep 1000;sleep 1000';
+process.env.WEB_PORT = 8080;
 
 describe('Autostop', function () {
   it('should stop on it\'s own', function (done) {
