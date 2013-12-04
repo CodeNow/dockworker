@@ -24,7 +24,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "npm run lint && NODE_ENV=testing mocha -R spec tests",
-    "build": "npm run lint && browserify ./lib/views/client.js -o ./public/bundle.js && esmangle ./public/bundle.js -o ./public/bundle.js",
+    "quickBuild": "npm run lint && browserify ./lib/views/client.js -d -o ./public/bundle.js",
+    "build": "npm run quickBuild && esmangle ./public/bundle.js -o ./public/bundle.js",
     "lint": "jshint --verbose --show-non-errors .",
     "fix": "fixmyjs ."
   },

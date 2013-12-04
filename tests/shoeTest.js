@@ -1,6 +1,9 @@
 var ShoeClient = require('./fixtures/ShoeClient');
 var MuxDemux = require('mux-demux');
 var request = require('request');
+var emitStream = require('emit-stream');
+var JSONStream = require('JSONStream');
+var EventEmitter = require('events').EventEmitter;
 
 describe('Streams', function () {
   describe('terminal', function () {
@@ -9,11 +12,11 @@ describe('Streams', function () {
       var muxDemux = new MuxDemux(onStream);
       stream.pipe(muxDemux).pipe(stream);
       function onStream(stream) {
-        if (stream.meta === 'pty') {
-          onPty(stream);
+        if (stream.meta === 'terminal') {
+          onTerminal(stream);
         }
       }
-      function onPty(stream) {
+      function onTerminal(stream) {
         stream.on('data', function (data) {
           if (/npm start\r\n/.test(data)) {
             done();
@@ -42,11 +45,11 @@ describe('Streams', function () {
       var muxDemux = new MuxDemux(onStream);
       this.stream.pipe(muxDemux).pipe(this.stream);
       function onStream(stream) {
-        if (stream.meta === 'pty') {
-          onPty(stream);
+        if (stream.meta === 'terminal') {
+          onTerminal(stream);
         }
       }
-      function onPty(stream) {
+      function onTerminal(stream) {
         stream.on('data', function (data) {
           if (data === 'HELLO\r\n') {
             done();
