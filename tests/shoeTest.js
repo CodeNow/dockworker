@@ -1,9 +1,6 @@
 var ShoeClient = require('./fixtures/ShoeClient');
 var MuxDemux = require('mux-demux');
 var request = require('request');
-var emitStream = require('emit-stream');
-var JSONStream = require('JSONStream');
-var EventEmitter = require('events').EventEmitter;
 
 describe('Streams', function () {
   describe('terminal', function () {

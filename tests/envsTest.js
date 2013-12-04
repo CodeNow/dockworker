@@ -20,8 +20,7 @@ describe('Envs', function () {
       request.post({
         url: 'http://localhost:15000/api/envs',
         json: {
-          key: 'flow',
-          value: 'fresh'
+          'flow': 'fresh'
         }
       }, function (err, res, body) {
         if (err) {
