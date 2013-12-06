@@ -1,13 +1,12 @@
 var request = require('request');
-process.env.RUNNABLE_START_CMD = 'npm start'; 
-process.env.RUNNABLE_USER_DIR = __dirname + '/fixtures'; 
+process.env.RUNNABLE_START_CMD = 'npm start';
+process.env.RUNNABLE_USER_DIR = __dirname + '/fixtures';
 process.env.RUNNABLE_SERVICE_CMDS = 'sleep 1000;sleep 1000';
 process.env.WEB_PORT = 8080;
 require('..');
-
-describe('Control', function (){
-  describe('start', function (){
-    it('should not already be running', function (done){
+describe('Control', function () {
+  describe('start', function () {
+    it('should not already be running', function (done) {
       request({
         url: 'http://localhost:15000/api/running',
         json: {}
@@ -15,13 +14,13 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (body.running === true) {
-          done(new Error('already running'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should not error out', function (done){
+    });
+    it('should not error out', function (done) {
       request({
         url: 'http://localhost:15000/api/start',
         json: {}
@@ -29,13 +28,13 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (res.statusCode === 500) {
-          done(new Error(body.message));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should be running', function (done){
+    });
+    it('should be running', function (done) {
       request({
         url: 'http://localhost:15000/api/running',
         json: {}
@@ -43,12 +42,12 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (body.running !== true) {
-          done(new Error('not running'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
+    });
     it('should have web up', function (done) {
       request({
         url: 'http://localhost:15000/api/checkWebUp',
@@ -58,12 +57,12 @@ describe('Control', function (){
           done(err);
         } else if (body.message !== 'application checkWebUped successfully') {
           console.log(body);
-          done(new Error('web down'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
+    });
     it('should say hello', function (done) {
       request({
         url: 'http://localhost:8080',
@@ -72,15 +71,15 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (body !== 'hello') {
-          done(new Error('rude'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-  })
-  describe('restart', function (){
-    it('should not error out', function (done){
+    });
+  });
+  describe('restart', function () {
+    it('should not error out', function (done) {
       request({
         url: 'http://localhost:15000/api/restart',
         json: {}
@@ -88,13 +87,13 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (res.statusCode === 500) {
-          done(new Error(body.message));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should be running', function (done){
+    });
+    it('should be running', function (done) {
       request({
         url: 'http://localhost:15000/api/running',
         json: {}
@@ -102,12 +101,12 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (body.running !== true) {
-          done(new Error('not running'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
+    });
     it('should have web up', function (done) {
       request({
         url: 'http://localhost:15000/api/checkWebUp',
@@ -117,12 +116,12 @@ describe('Control', function (){
           done(err);
         } else if (body.message !== 'application checkWebUped successfully') {
           console.log(body);
-          done(new Error('web down'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
+    });
     it('should say hello', function (done) {
       request({
         url: 'http://localhost:8080',
@@ -131,15 +130,15 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (body !== 'hello') {
-          done(new Error('rude'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-  })
-  describe('stop', function (){
-    it('should be running', function (done){
+    });
+  });
+  describe('stop', function () {
+    it('should be running', function (done) {
       request({
         url: 'http://localhost:15000/api/running',
         json: {}
@@ -147,13 +146,13 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (body.running !== true) {
-          done(new Error('not running'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should not error out', function (done){
+    });
+    it('should not error out', function (done) {
       request({
         url: 'http://localhost:15000/api/stop',
         json: {}
@@ -161,13 +160,13 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (res.statusCode === 500) {
-          done(new Error(body.message));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should be stopped', function (done){
+    });
+    it('should be stopped', function (done) {
       request({
         url: 'http://localhost:15000/api/running',
         json: {}
@@ -175,13 +174,13 @@ describe('Control', function (){
         if (err) {
           done(err);
         } else if (body.running === true) {
-          done(new Error('still running'));
+          done(new Error());
         } else {
           done();
         }
       });
-    })
-    it('should not say hello', function (done){
+    });
+    it('should not say hello', function (done) {
       request({
         url: 'http://localhost:8080',
         json: {}
@@ -189,9 +188,9 @@ describe('Control', function (){
         if (err) {
           done();
         } else {
-          done(new Error('should not have been running'));
+          done(new Error());
         }
       });
-    })
-  })
-})
+    });
+  });
+});
