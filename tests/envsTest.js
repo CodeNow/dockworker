@@ -1,8 +1,4 @@
 var request = require('request');
-process.env.RUNNABLE_START_CMD = 'sleep 1000';
-process.env.RUNNABLE_USER_DIR = '~';
-process.env.RUNNABLE_SERVICE_CMDS = 'sleep 1000;sleep 1000';
-require('..');
 describe('Envs', function () {
   describe('flow', function () {
     it('should not be set', function (done) {
@@ -24,8 +20,7 @@ describe('Envs', function () {
       request.post({
         url: 'http://localhost:15000/api/envs',
         json: {
-          key: 'flow',
-          value: 'fresh'
+          'flow': 'fresh'
         }
       }, function (err, res, body) {
         if (err) {
