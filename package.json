@@ -19,7 +19,8 @@
     "formidable": "~1.0.14",
     "emit-stream": "~0.1.2",
     "JSONStream": "~0.7.1",
-    "shoe": "0.0.15"
+    "shoe": "0.0.15",
+    "away": "~1.0.0"
   },
   "scripts": {
     "start": "node index.js",
