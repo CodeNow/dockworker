@@ -4,7 +4,10 @@
 dockworker
 ==========
 
-Run multiple services in a docker container 
-expose a console and terminal to the web
-and control a master process
+Run services in a docker container 
+expose a terminal to the web
+expose the file system to the web
+and expose a build/run process to the web
+
+in short expose as much of the system to the web as possible
 
