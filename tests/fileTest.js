@@ -260,4 +260,32 @@ describe('Files', function () {
       });
     });
   });
+  describe('get', function () {
+    it('should get a file', function (done) {
+      request('http://localhost:15000/api/files?path=' + __filename)
+        .on('end', done)
+        .on('error', done);
+    });
+    it('should get a directory', function (done) {
+      request('http://localhost:15000/api/files?path=' + __dirname)
+        .on('end', done)
+        .on('error', done);
+    });
+  });
+  describe('list', function () {
+    it('should list a directory', function (done) {
+      request({
+        url: 'http://localhost:15000/api/files/list?path=' + __dirname,
+        json: {}
+      }, function (err, res, body) {
+        if (err) {
+          done(err);
+        } else if (res.statusCode !== 200 || !Array.isArray(body)) {
+          done(new Error('no list'));
+        } else {
+          done();
+        }
+      });
+    });
+  });
 });
