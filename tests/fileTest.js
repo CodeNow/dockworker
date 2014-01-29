@@ -6,6 +6,12 @@ var newName = 'myCoolerFile' + Date.now() + '.txt';
 var nonExisting = 'trololol.vb';
 var content = 'this is really cool content';
 var update = 'this is way cooler content';
+var fs = require('fs');
+var zlib = require('zlib');
+var fstream = require('fstream');
+var tar = require('tar');
+var os = require('os');
+var exec = require('child_process').exec;
 describe('Files', function () {
   describe('create', function () {
     it('should not error the first time', function (done) {
@@ -286,6 +292,124 @@ describe('Files', function () {
           done();
         }
       });
+    });
+  });
+  describe('put', function () {
+    before(function (done) {
+      this.temp = os.tmpdir() + Math.floor(Math.random() * 5000);
+      fs.mkdir(this.temp, done);
+    });
+    it('should put a file', function (done) {
+      fs.createReadStream(__filename)
+        .pipe(zlib.createGzip())
+        .pipe(request.put({
+          url: 'http://localhost:15000/api/files',
+          qs: {
+            path: this.temp + '/foo.js'
+          }
+        }, function (err, res, body) {
+          if (err) {
+            done(err);
+          } else if (res.statusCode !== 200) {
+            done(new Error('error uploading file'));
+          } else {
+            done();
+          }
+        }));
+    });
+    it('should put a directory', function (done) {
+      fstream.Reader({
+        path: __dirname,
+        type: "Directory"
+      })
+      .pipe(tar.Pack({ noProprietary: true }))
+      .pipe(zlib.createGzip())
+      .pipe(request.put({
+        url: 'http://localhost:15000/api/files',
+        qs: {
+          path: this.temp,
+          isDirectory: true
+        }
+      }, function (err, res, body) {
+        if (err) {
+          done(err);
+        } else if (res.statusCode !== 200) {
+          done(new Error('error uploading directory'));
+        } else {
+          done();
+        }
+      }));
+    });
+    after(function (done) {
+      exec('rm -rf ' + this.temp, done);
+    });
+  });
+  describe('post', function () {
+    before(function (done) {
+      this.temp = os.tmpdir() + Math.floor(Math.random() * 5000);
+      fs.mkdir(this.temp, done);
+    });
+    it('should post a file', function (done) {
+      fs.createReadStream(__filename)
+        .pipe(zlib.createGzip())
+        .pipe(request.post({
+          url: 'http://localhost:15000/api/files',
+          qs: {
+            path: this.temp + '/foo.js'
+          }
+        }, function (err, res, body) {
+          if (err) {
+            done(err);
+          } else if (res.statusCode !== 200) {
+            done(new Error('error uploading file'));
+          } else {
+            done();
+          }
+        }));
+    });
+    it('should fail to post a duplicate file', function (done) {
+      fs.createReadStream(__filename)
+        .pipe(zlib.createGzip())
+        .pipe(request.post({
+          url: 'http://localhost:15000/api/files',
+          qs: {
+            path: this.temp + '/foo.js'
+          }
+        }, function (err, res, body) {
+          if (err) {
+            done(err);
+          } else if (res.statusCode !== 409) {
+            done(new Error('failure to conflict'));
+          } else {
+            done();
+          }
+        }));
+    });
+    it('should post a directory', function (done) {
+      fstream.Reader({
+        path: __dirname,
+        type: "Directory"
+      })
+      .pipe(tar.Pack({ noProprietary: true }))
+      .pipe(zlib.createGzip())
+      .pipe(request.post({
+        url: 'http://localhost:15000/api/files',
+        qs: {
+          path: this.temp + '/tests',
+          isDirectory: true
+        }
+      }, function (err, res, body) {
+        if (err) {
+          done(err);
+        } else if (res.statusCode !== 200) {
+          done(new Error('error uploading directory'));
+        } else {
+          done();
+        }
+      }));
+    });
+    after(function (done) {
+      exec('rm -rf ' + this.temp, done);
     });
   });
 });

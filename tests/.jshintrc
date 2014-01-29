@@ -12,7 +12,8 @@
     "predef"        : [  // Custom globals.
         "describe",
         "it",
-        "before"
+        "before",
+        "after"
     ],
  
  
