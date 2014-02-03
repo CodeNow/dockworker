@@ -31,7 +31,8 @@
     "quickBuild": "npm run lint && browserify ./lib/views/client.js -d -o ./public/bundle.js",
     "build": "npm run quickBuild && esmangle ./public/bundle.js -o ./public/bundle.js",
     "lint": "jshint --verbose --show-non-errors .",
-    "fix": "fixmyjs ."
+    "fix": "fixmyjs .",
+    "postinstall": "npm run quickBuild"
   },
   "devDependencies": {
     "browserify": "~2.29.0",
