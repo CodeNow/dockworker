@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "browserify": "~2.29.0",
-    "term.js": "0.0.2",
+    "term.js": "CodeNow/term.js",
     "es5-shimify": "~2.0.5",
     "mocha": "~1.12.1",
     "hyperquest": "~0.1.7",
