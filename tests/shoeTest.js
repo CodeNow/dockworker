@@ -1,4 +1,4 @@
-var ShoeClient = require('./fixtures/ShoeClient');
+var ShoeClient = require('../lib/ShoeClient');
 var MuxDemux = require('mux-demux');
 var request = require('request');
 

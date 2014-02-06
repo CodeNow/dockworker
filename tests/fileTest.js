@@ -296,7 +296,7 @@ describe('Files', function () {
   });
   describe('put', function () {
     before(function (done) {
-      this.temp = os.tmpdir() + Math.floor(Math.random() * 5000);
+      this.temp = os.tmpdir() + '/' + Math.floor(Math.random() * 5000);
       fs.mkdir(this.temp, done);
     });
     it('should put a file', function (done) {
@@ -346,7 +346,7 @@ describe('Files', function () {
   });
   describe('post', function () {
     before(function (done) {
-      this.temp = os.tmpdir() + Math.floor(Math.random() * 5000);
+      this.temp = os.tmpdir() + '/' + Math.floor(Math.random() * 5000);
       fs.mkdir(this.temp, done);
     });
     it('should post a file', function (done) {
