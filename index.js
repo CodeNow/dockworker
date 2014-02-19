@@ -5,6 +5,6 @@ require('./lib/server').listen(15000);
 var childKiller = require('./lib/controllers/childKiller.js');
 
 process.on('SIGTERM', function() {
-	childKiller(process.getgid());
+	childKiller(process.pid);
 	process.exit();
 });
