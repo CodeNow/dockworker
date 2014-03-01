@@ -8,6 +8,7 @@ Run services in a docker container
 expose a terminal to the web
 expose the file system to the web
 and expose a build/run process to the web
+provides debugging and logging capabilities
 
 in short expose as much of the system to the web as possible
 
