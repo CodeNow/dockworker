@@ -15,7 +15,7 @@ describe('Streams', function () {
       }
       function onTerminal(stream) {
         stream.on('data', function (data) {
-          if (/npm start\r\n/.test(data)) {
+          if (/npm start/.test(data)) {
             done();
           }
         });
@@ -48,7 +48,7 @@ describe('Streams', function () {
       }
       function onTerminal(stream) {
         stream.on('data', function (data) {
-          if (data === 'HELLO\r\n') {
+          if (/HELLO/.test(data)) {
             done();
           }
         });
