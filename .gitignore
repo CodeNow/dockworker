@@ -1,4 +1,3 @@
-node_modules
 .vagrant
 .DS_Store
 lib-cov
