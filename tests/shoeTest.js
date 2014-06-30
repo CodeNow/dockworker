@@ -48,10 +48,12 @@ describe('Streams', function () {
       }
       function onTerminal(stream) {
         var buffer = '';
+        var found = false;
         stream.on('data', function (data) {
           buffer += data;
           console.log(data);
-          if (/HELLO/.test(buffer)) {
+          if (/HELLO/.test(buffer) && !found) {
+            found = true;
             done();
           }
         });
