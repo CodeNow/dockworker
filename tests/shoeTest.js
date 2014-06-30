@@ -47,8 +47,11 @@ describe('Streams', function () {
         }
       }
       function onTerminal(stream) {
+        var buffer = '';
         stream.on('data', function (data) {
-          if (/HELLO/.test(data)) {
+          buffer += data;
+          console.log(data);
+          if (/HELLO/.test(buffer)) {
             done();
           }
         });
